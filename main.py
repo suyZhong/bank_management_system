@@ -1,16 +1,29 @@
-# This is a sample Python script.
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QTableWidgetItem, QHeaderView
+from PyQt5.QtWidgets import QDialog
+from PyQt5 import QtCore
+from login import LoginDiag
+from window import MainWindow
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from UI.login_form import Ui_login_form
+import sys
+import db
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+
+def main():
+    app = QApplication(sys.argv)
+    # window = MainWindow()
+    # window2 = MainWindow()
+    dialog = LoginDiag()
+    # ui = Ui_login_form()
+    # ui.setupUi(dialog)
+    # ui.pushButton.clicked.connect(window_login)
+    dialog.show()
+    # window.show()
+    sys.exit(app.exec_())
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
