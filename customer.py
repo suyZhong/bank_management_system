@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 from sqlalchemy.exc import IntegrityError, DataError
 from PyQt5.Qt import QMessageBox
 
+
 class CustomerUI(QWidget, Ui_customer):
     def __init__(self):
         super(CustomerUI, self).__init__()
@@ -12,6 +13,8 @@ class CustomerUI(QWidget, Ui_customer):
         self.setupUi(self)
         self.customerAdd.clicked.connect(self.addCustomer)
         self.CusQueryButton.clicked.connect(self.queryCustomer)
+        self.CusID_2.textChanged.connect(self.queryCustomer)
+        self.clearButton_2.clicked.connect(self.tableWidget.clearContents)
 
     def addCustomer(self):
         id = self.CusAddID.text()
@@ -23,7 +26,8 @@ class CustomerUI(QWidget, Ui_customer):
         contact_mail = self.CusAddCaddr.text()
         contact_relation = self.CusAddRela.text()
         try:
-            db.addCustomer(self.engine, id, name, phone, address, contact_name, contact_phone, contact_mail, contact_relation)
+            db.addCustomer(self.engine, id, name, phone, address, contact_name, contact_phone, contact_mail,
+                           contact_relation)
         except IntegrityError:
             msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong')
             msgBox.exec_()
@@ -40,21 +44,30 @@ class CustomerUI(QWidget, Ui_customer):
         session.close()
 
     def queryCustomer(self):
-        id = self.CusAddID.text()
-        name = self.CusAddName.text()
-        phone = self.CusAddPhone.text()
-        address = self.CusAddAddress.text()
-        contact_name = self.CusAddCname.text()
-        contact_phone = self.CusAddCphone.text()
-        contact_mail = self.CusAddCaddr.text()
-        contact_relation = self.CusAddRela.text()
+        idd = '%' + self.CusID_2.text() + '%'
+        name = '%' + self.CusName_2.text() + '%'
+        phone = '%' + self.CusPhone_2.text() + '%'
+        address = '%' + self.CusAddress_2.text() + '%'
+        contact_name = '%' + self.CusCname_2.text() + '%'
+        contact_phone = '%' + self.CusCphone_2.text() + '%'
+        contact_mail = '%' + self.CusCaddr_2.text() + '%'
+        contact_relation = '%' + self.CusRela_2.text() + '%'
 
         session = db.sessionmaker(self.engine)()
-
+        data = session.query(db.Customer).filter(db.Customer.id.like(idd),
+                                                 db.Customer.name.like(name),
+                                                 db.Customer.phone.like(phone),
+                                                 db.Customer.address.like(address),
+                                                 db.Customer.contact_name.like(contact_name),
+                                                 db.Customer.contact_phone.like(contact_phone),
+                                                 db.Customer.contact_email.like(contact_mail),
+                                                 db.Customer.contact_relation.like(contact_relation)).all()
+        self.showCustomer(data)
         session.commit()
         session.close()
 
-    def showCustomer(self,data):
+    def showCustomer(self, data):
+        self.tableWidget.clearContents()
         for i in range(len(data)):
             row = data[i]
             self.tableWidget.setItem(i, 0, QTableWidgetItem(row.id))

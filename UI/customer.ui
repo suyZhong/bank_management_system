@@ -362,12 +362,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>130</x>
-     <y>499</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>125</x>
-     <y>469</y>
+     <x>94</x>
+     <y>468</y>
     </hint>
    </hints>
   </connection>
@@ -378,12 +378,12 @@
    <slot>copy()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>188</x>
-     <y>494</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>186</x>
-     <y>403</y>
+     <x>94</x>
+     <y>398</y>
     </hint>
    </hints>
   </connection>
@@ -394,12 +394,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>250</x>
-     <y>501</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>179</x>
-     <y>330</y>
+     <x>59</x>
+     <y>328</y>
     </hint>
    </hints>
   </connection>
@@ -410,12 +410,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>362</x>
-     <y>491</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>345</x>
-     <y>335</y>
+     <x>216</x>
+     <y>328</y>
     </hint>
    </hints>
   </connection>
@@ -426,12 +426,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>290</x>
-     <y>502</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>279</x>
-     <y>264</y>
+     <x>94</x>
+     <y>260</y>
     </hint>
    </hints>
   </connection>
@@ -442,12 +442,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
-     <y>504</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>155</x>
-     <y>208</y>
+     <x>59</x>
+     <y>191</y>
     </hint>
    </hints>
   </connection>
@@ -458,12 +458,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>296</x>
-     <y>498</y>
+     <x>100</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>288</x>
-     <y>195</y>
+     <x>216</x>
+     <y>191</y>
     </hint>
    </hints>
   </connection>
@@ -474,14 +474,145 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>310</x>
+     <x>100</x>
      <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>311</x>
-     <y>134</y>
+     <x>94</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusCaddr_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>139</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>482</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusCphone_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>510</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>405</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusRela_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>279</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>293</x>
+     <y>334</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusCname_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>506</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>177</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusAddress_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>240</x>
+     <y>509</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>238</x>
+     <y>276</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusName_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>97</x>
+     <y>511</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>117</x>
+     <y>201</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusID_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>129</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CusPhone_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>512</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>207</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>slot1()</slot>
+ </slots>
 </ui>

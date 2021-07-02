@@ -189,6 +189,14 @@ class Ui_customer(object):
         self.clearButton.clicked.connect(self.CusAddName.clear)
         self.clearButton.clicked.connect(self.CusAddPhone.clear)
         self.clearButton.clicked.connect(self.CusAddID.clear)
+        self.clearButton_2.clicked.connect(self.CusCaddr_2.clear)
+        self.clearButton_2.clicked.connect(self.CusCphone_2.clear)
+        self.clearButton_2.clicked.connect(self.CusRela_2.clear)
+        self.clearButton_2.clicked.connect(self.CusCname_2.clear)
+        self.clearButton_2.clicked.connect(self.CusAddress_2.clear)
+        self.clearButton_2.clicked.connect(self.CusName_2.clear)
+        self.clearButton_2.clicked.connect(self.CusID_2.clear)
+        self.clearButton_2.clicked.connect(self.CusPhone_2.clear)
         QtCore.QMetaObject.connectSlotsByName(customer)
 
     def retranslateUi(self, customer):

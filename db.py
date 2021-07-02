@@ -135,6 +135,8 @@ if __name__ == '__main__':
     session = DBsession()
     # session.add(Bank(name="zhossng guoen min bsu hang", city="hefias"))
     # session.add(Employee(id='1231223', name='null'))
-
+    data = session.query(Customer).filter(Customer.id.like('%'+'s'+'%')).all()
+    for i in data:
+        print(i.id)
     session.commit()
     session.close()
