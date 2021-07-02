@@ -36,7 +36,8 @@ class LoginDiag(QDialog):
             return
 
         print("asd")
-        self.window.db = session
+        self.window.engine = engine
+        self.window.customer.engine = engine
         self.window.show()
         self.close()
 
