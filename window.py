@@ -3,7 +3,7 @@ from PyQt5.Qt import QStackedLayout
 from PyQt5.QtWidgets import QWidget
 from UI.main_window import Ui_MainWindow
 from customer import CustomerUI
-from accountant import AccountUI
+from account import AccountUI
 import db
 
 

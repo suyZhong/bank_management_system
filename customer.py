@@ -53,7 +53,7 @@ class CustomerUI(QWidget, Ui_customer):
             self.CusCphone_3.setText(contact_phone)
             self.CusCaddr_3.setText(contact_mail)
             self.CusRela_3.setText(contact_relation)
-            self.CusEmployee2_3.setText(employee)
+            self.CusEmployee2_2.setText(employee)
         if self.tabWidget.currentIndex() == 3:
             self.CusID_4.setText(id)
             self.CusName_4.setText(name)
@@ -97,48 +97,61 @@ class CustomerUI(QWidget, Ui_customer):
         session.close()
 
     def queryCustomer(self):
+        args = {}
         if self.tabWidget.currentIndex() == 1:
-            idd = '%' + self.CusID_2.text() + '%'
-            name = '%' + self.CusName_2.text() + '%'
-            phone = '%' + self.CusPhone_2.text() + '%'
-            address = '%' + self.CusAddress_2.text() + '%'
-            contact_name = '%' + self.CusCname_2.text() + '%'
-            contact_phone = '%' + self.CusCphone_2.text() + '%'
-            contact_mail = '%' + self.CusCaddr_2.text() + '%'
-            contact_relation = '%' + self.CusRela_2.text() + '%'
-            employee = '%' + self.CusEmployee2.text() + '%'
+            args['id'] = self.CusID_2.text()
+            args['name'] = self.CusName_2.text()
+            args['phone'] = self.CusPhone_2.text()
+            args['address'] = self.CusAddress_2.text()
+            args['contact_name'] = self.CusCname_2.text()
+            args['contact_phone'] = self.CusCphone_2.text()
+            args['contact_email'] = self.CusCaddr_2.text()
+            args['contact_relation'] = self.CusRela_2.text()
+            args['empl_id'] = self.CusEmployee2.text()
         elif self.tabWidget.currentIndex() == 2:
-            idd = '%' + self.CusID_3.text() + '%'
-            name = '%' + self.CusName_3.text() + '%'
-            phone = '%' + self.CusPhone_3.text() + '%'
-            address = '%' + self.CusAddress_3.text() + '%'
-            contact_name = '%' + self.CusCname_3.text() + '%'
-            contact_phone = '%' + self.CusCphone_3.text() + '%'
-            contact_mail = '%' + self.CusCaddr_3.text() + '%'
-            contact_relation = '%' + self.CusRela_3.text() + '%'
-            employee = '%' + self.CusEmployee2_2.text() + '%'
+            args['id'] = self.CusID_3.text()
+            args['name'] = self.CusName_3.text()
+            args['phone'] = self.CusPhone_3.text()
+            args['address'] = self.CusAddress_3.text()
+            args['contact_name'] = self.CusCname_3.text()
+            args['contact_phone'] = self.CusCphone_3.text()
+            args['contact_email'] = self.CusCaddr_3.text()
+            args['contact_relation'] = self.CusRela_3.text()
+            args['empl_id'] = self.CusEmployee2_2.text()
         elif self.tabWidget.currentIndex() == 3:
-            idd = '%' + self.CusID_4.text() + '%'
-            name = '%' + self.CusName_4.text() + '%'
-            phone = '%' + self.CusPhone_4.text() + '%'
-            address = '%' + self.CusAddress_4.text() + '%'
-            contact_name = '%' + self.CusCname_4.text() + '%'
-            contact_phone = '%' + self.CusCphone_4.text() + '%'
-            contact_mail = '%' + self.CusCaddr_4.text() + '%'
-            contact_relation = '%' + self.CusRela_4.text() + '%'
-            employee = '%' + self.CusEmployee2_3.text() + '%'
+            args['id'] = self.CusID_4.text()
+            args['name'] = self.CusName_4.text()
+            args['phone'] = self.CusPhone_4.text()
+            args['address'] = self.CusAddress_4.text()
+            args['contact_name'] = self.CusCname_4.text()
+            args['contact_phone'] = self.CusCphone_4.text()
+            args['contact_email'] = self.CusCaddr_4.text()
+            args['contact_relation'] = self.CusRela_4.text()
+            args['empl_id'] = self.CusEmployee2_3.text()
+        args = db.argStr2None(args)
+        for k in args.keys():
+            if args[k]:
+                args[k] = '%' + args[k] + '%'
+        filt = []
+        filt.append(db.Customer.id.like(args['id']) if args['id']
+                    else or_(db.Customer.id.like('%%'), db.Customer.id.is_(None)))
+        filt.append(db.Customer.name.like(args['name']) if args['name']
+                    else or_(db.Customer.name.like('%%'), db.Customer.name.is_(None)))
+        filt.append(db.Customer.phone.like(args['phone']) if args['phone']
+                    else or_(db.Customer.phone.like('%%'), db.Customer.phone.is_(None)))
+        filt.append(db.Customer.address.like(args['address']) if args['address']
+                    else or_(db.Customer.address.like('%%'), db.Customer.address.is_(None)))
+        filt.append(db.Customer.contact_email.like(args['contact_email']) if args['contact_email']
+                    else or_(db.Customer.contact_email.like('%%'), db.Customer.contact_email.is_(None)))
+        filt.append(db.Customer.contact_phone.like(args['contact_phone']) if args['contact_phone']
+                    else or_(db.Customer.contact_phone.like('%%'), db.Customer.contact_phone.is_(None)))
+        filt.append(db.Customer.contact_relation.like(args['contact_relation']) if args['contact_relation']
+                    else or_(db.Customer.contact_relation.like('%%'), db.Customer.contact_relation.is_(None)))
+        filt.append(db.Customer.empl_id.like(args['empl_id']) if args['empl_id']
+                    else or_(db.Customer.empl_id.like('%%'), db.Customer.empl_id.is_(None)))
 
         session = db.sessionmaker(self.engine)()
-        data = session.query(db.Customer).filter(db.Customer.id.like(idd),
-                                                 db.Customer.name.like(name),
-                                                 db.Customer.phone.like(phone),
-                                                 db.Customer.address.like(address),
-                                                 db.Customer.contact_name.like(contact_name),
-                                                 db.Customer.contact_phone.like(contact_phone),
-                                                 db.Customer.contact_email.like(contact_mail),
-                                                 db.Customer.contact_relation.like(contact_relation),
-                                                 or_(db.Customer.empl_id.like(employee),
-                                                     db.Customer.empl_id.is_(None))).all()
+        data = session.query(db.Customer).filter(*filt).all()
         self.showCustomer(data)
         session.commit()
         session.close()
@@ -160,20 +173,19 @@ class CustomerUI(QWidget, Ui_customer):
         session.close()
 
     def updateCustomer(self):
+        args = {}
         id = self.CusID_4.text()
-        name = self.CusName_4.text()
-        phone = self.CusPhone_4.text()
-        address = self.CusAddress_4.text()
-        contact_name = self.CusCname_4.text()
-        contact_phone = self.CusCphone_4.text()
-        contact_mail = self.CusCaddr_4.text()
-        contact_relation = self.CusRela_4.text()
-        employee = self.CusEmployee2_3.text()
+        args['name'] = self.CusName_4.text()
+        args['phone'] = self.CusPhone_4.text()
+        args['address'] = self.CusAddress_4.text()
+        args['contact_name'] = self.CusCname_4.text()
+        args['contact_phone'] = self.CusCphone_4.text()
+        args['contact_email'] = self.CusCaddr_4.text()
+        args['contact_relation'] = self.CusRela_4.text()
+        args['empl_id'] = self.CusEmployee2_3.text()
+        args = db.argStr2None(args)
         session = db.sessionmaker(self.engine)()
-        data = session.query(db.Customer).filter(db.Customer.id == id).update(
-            {'name': name, 'phone': phone, 'address': address, 'contact_name': contact_name,
-             'contact_phone': contact_phone, 'contact_email': contact_mail, 'contact_relation': contact_relation,
-             'empl_id': employee})
+        data = session.query(db.Customer).filter(db.Customer.id == id).update(args)
         session.commit()
         session.close()
 
@@ -185,6 +197,7 @@ class CustomerUI(QWidget, Ui_customer):
 
     def showCustomer(self, data):
         self.tableWidget.clearContents()
+        self.tableWidget.setRowCount(len(data))
         for i in range(len(data)):
             row = data[i]
             self.tableWidget.setItem(i, 0, QTableWidgetItem(row.id))

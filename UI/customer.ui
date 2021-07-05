@@ -33,7 +33,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="add">
       <attribute name="title">
@@ -339,39 +339,15 @@
        <string>删除</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_24">
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_23">
          <property name="text">
-          <string>身份证</string>
+          <string>联系人邮件地址</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLineEdit" name="CusID_3"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>姓名</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_25">
-         <property name="text">
-          <string>手机号</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLineEdit" name="CusName_3"/>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="CusPhone_3">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
+       <item row="11" column="1">
+        <widget class="QLineEdit" name="CusEmployee2_2"/>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_28">
@@ -380,13 +356,20 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QLineEdit" name="CusAddress_3"/>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="CusCname_3"/>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_21">
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_27">
          <property name="text">
-          <string>联系人姓名</string>
+          <string>联系人电话</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0" colspan="2">
+        <widget class="QPushButton" name="CusDelButton">
+         <property name="text">
+          <string>Confirm</string>
          </property>
         </widget>
        </item>
@@ -397,29 +380,6 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLineEdit" name="CusCname_3"/>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLineEdit" name="CusRela_3"/>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>联系人邮件地址</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0" colspan="2">
-        <widget class="QLineEdit" name="CusCaddr_3"/>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_27">
-         <property name="text">
-          <string>联系人电话</string>
-         </property>
-        </widget>
-       </item>
        <item row="10" column="1">
         <widget class="QLabel" name="label_26">
          <property name="text">
@@ -427,11 +387,36 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="0">
-        <widget class="QLineEdit" name="CusCphone_3"/>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="CusPhone_3">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
-       <item row="11" column="1">
-        <widget class="QLineEdit" name="CusEmployee2_2"/>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>联系人姓名</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="CusRela_3"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_25">
+         <property name="text">
+          <string>手机号</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>姓名</string>
+         </property>
+        </widget>
        </item>
        <item row="12" column="0" colspan="2">
         <widget class="QPushButton" name="clearButton_3">
@@ -440,12 +425,27 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="0" colspan="2">
-        <widget class="QPushButton" name="CusDelButton">
+       <item row="9" column="0" colspan="2">
+        <widget class="QLineEdit" name="CusCaddr_3"/>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QLineEdit" name="CusAddress_3"/>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLineEdit" name="CusCphone_3"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="CusName_3"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_24">
          <property name="text">
-          <string>Confirm</string>
+          <string>身份证</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLineEdit" name="CusID_3"/>
        </item>
       </layout>
      </widget>

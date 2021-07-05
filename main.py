@@ -21,7 +21,7 @@ def main():
     # ui.setupUi(dialog)
     # ui.pushButton.clicked.connect(window_login)
     dialog.show()
-    # window.show()
+    # window.show(
     sys.exit(app.exec_())
 
 
