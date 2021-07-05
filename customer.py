@@ -50,8 +50,8 @@ class CustomerUI(QWidget, Ui_customer):
             self.CusPhone_3.setText(phone)
             self.CusAddress_3.setText(address)
             self.CusCname_3.setText(contact_name)
-            self.CusPhone_3.setText(contact_phone)
-            self.CusAddress_3.setText(contact_mail)
+            self.CusCphone_3.setText(contact_phone)
+            self.CusCaddr_3.setText(contact_mail)
             self.CusRela_3.setText(contact_relation)
             self.CusEmployee2_3.setText(employee)
         if self.tabWidget.currentIndex() == 3:
@@ -60,8 +60,8 @@ class CustomerUI(QWidget, Ui_customer):
             self.CusPhone_4.setText(phone)
             self.CusAddress_4.setText(address)
             self.CusCname_4.setText(contact_name)
-            self.CusPhone_4.setText(contact_phone)
-            self.CusAddress_4.setText(contact_mail)
+            self.CusCphone_4.setText(contact_phone)
+            self.CusCaddr_4.setText(contact_mail)
             self.CusRela_4.setText(contact_relation)
             self.CusEmployee2_3.setText(employee)
 

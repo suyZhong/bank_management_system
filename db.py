@@ -80,6 +80,17 @@ def addCustomer(engine ,id, name, phone, address, cname, cphone, cmail, crelatio
     session.commit()
     session.close()
 
+def addAccount(engine, accType, id, poss, date, bank, rate, cType, extra):
+    session = sessionmaker(engine)()
+    if accType:
+        #  is saving
+        session.add(SaveAccount(id=id, rest=poss, date=date,bank_name=bank,rate = rate, money_type=cType))
+    else:
+        session.add(CheckAccount(id = id, rest=poss, date=date, bank_name=bank, extra=extra))
+    session.commit()
+    session.close()
+
+
 engine = sql.create_engine(DB_URL)
 
 # baseClass = declarative_base(engine)
