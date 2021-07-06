@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QWidget
 from UI.main_window import Ui_MainWindow
 from customer import CustomerUI
 from account import AccountUI
+from loans import LoansUI
 import db
 
 
@@ -20,8 +21,10 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.addWidget(self.customer)
         self.accountant = AccountUI()
         self.ui.stackedWidget.addWidget(self.accountant)
+        self.loans = LoansUI()
+        self.ui.stackedWidget.addWidget(self.loans)
         # for debug
-        self.ui.stackedWidget.setCurrentIndex(1)
+        self.ui.stackedWidget.setCurrentIndex(2)
 
     def openCustomer(self):
         self.ui.stackedWidget.setCurrentIndex(0)

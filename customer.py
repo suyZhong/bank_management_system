@@ -78,8 +78,12 @@ class CustomerUI(QWidget, Ui_customer):
         employee = self.CusEmployee.currentText()
 
         try:
-            db.addCustomer(self.engine, id, name, phone, address, contact_name, contact_phone, contact_mail,
+            session = db.sessionmaker(self.engine)()
+            db.addCustomer(session, id, name, phone, address, contact_name, contact_phone, contact_mail,
                            contact_relation, employee)
+
+            session.commit()
+            session.close()
         except IntegrityError:
             print(IntegrityError)
             msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong')
@@ -90,6 +94,7 @@ class CustomerUI(QWidget, Ui_customer):
                                                                'right format.')
             msgBox.exec_()
             return
+
         session = db.sessionmaker(self.engine)()
         data = session.query(db.Customer).all()
         self.showCustomer(data)

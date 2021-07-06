@@ -80,6 +80,14 @@ def argStr2None(args: dict):
     return args
 
 
+def addLoan(session, id, total_money, bank_name):
+    args = locals()
+    args = argStr2None(args)
+    print(args)
+    session.add(Loan(id=args['id'], total_money=args['total_money'], status=0, bank_name=args['bank_name']))
+
+
+
 def addCusAccount(session, accType, sa_id, cus_id, bank_name):
     args = locals()
     args = argStr2None(args)
@@ -92,7 +100,8 @@ def addCusAccount(session, accType, sa_id, cus_id, bank_name):
 def addCustomer(session, id, name, phone, address, cname, cphone, cmail, crelation, empl_id):
     args = locals()
     args = argStr2None(args)
-    session.add(Customer(id=args['id'], name=args['name'], phone=args['phone'], address=args['address'], contact_name=args['cname'], contact_phone=cphone,
+    session.add(Customer(id=args['id'], name=args['name'], phone=args['phone'], address=args['address'],
+                         contact_name=args['cname'], contact_phone=cphone,
                          contact_email=args['cmail'], contact_relation=args['crelation'], empl_id=args['empl_id']))
 
 
@@ -101,16 +110,18 @@ def addAccount(session, accType, id, rest, date, bank_name, rate, money_type, ex
     args = argStr2None(args)
     if accType:
         #  is saving
-        session.add(SaveAccount(id=args['id'], rest=args['rest'], date=args['date'], bank_name=args['bank_name'], rate=args['rate'], money_type=args['money_type']))
+        session.add(SaveAccount(id=args['id'], rest=args['rest'], date=args['date'], bank_name=args['bank_name'],
+                                rate=args['rate'], money_type=args['money_type']))
     else:
-        session.add(CheckAccount(id=args['id'], rest=args['rest'], date=args['date'], bank_name=args['bank_name'], extra=args['extra']))
+        session.add(CheckAccount(id=args['id'], rest=args['rest'], date=args['date'], bank_name=args['bank_name'],
+                                 extra=args['extra']))
 
 
 engine = sql.create_engine(DB_URL)
 
-# baseClass = declarative_base(engine)
-baseClass = declarative_base()
-# baseClass.metadata.clear()
+baseClass = declarative_base(engine)
+# baseClass = declarative_base()
+baseClass.metadata.clear()
 
 
 class Bank(baseClass):
@@ -175,10 +186,11 @@ class SaveAccount(baseClass):
 class CustomerToCA(baseClass):
     __tablename__ = 'customer_to_ca'
     last_access_date = sql.Column(sql.Date)
-    ca_id = sql.Column(sql.String(25), sql.ForeignKey('check_account.id'), primary_key=True, onupdate = "CASCADE")
+    ca_id = sql.Column(sql.String(25), sql.ForeignKey('check_account.id'), primary_key=True, onupdate="CASCADE")
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
     __table_args__ = (UniqueConstraint('cus_id', 'bank_name', name='one_cus_to_ca'),)
+
 
 class CustomerToSA(baseClass):
     __tablename__ = 'customer_to_sa'
@@ -187,8 +199,6 @@ class CustomerToSA(baseClass):
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
     __table_args__ = (UniqueConstraint('cus_id', 'bank_name', name='one_cus_to_sa'),)
-
-
 
 
 class CheckAccount(baseClass):
@@ -203,27 +213,31 @@ class CheckAccount(baseClass):
 class CustomerToLoan(baseClass):
     __tablename__ = 'customer_to_loan'
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
-    loan_id = sql.Column(sql.String(25), sql.ForeignKey('loan.id'), primary_key=True)
+    loan_id = sql.Column(sql.String(25), sql.ForeignKey('loan.id', ondelete="CASCADE"), primary_key=True)
 
 
 class Loan(baseClass):
     __tablename__ = 'loan'
     id = sql.Column(sql.String(25), primary_key=True)
-    money = sql.Column(sql.Float)
+    total_money = sql.Column(sql.Float)
+    status = sql.Column(sql.Integer)
 
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
+    c2l = relationship('CustomerToLoan', backref='loan', passive_deletes=True)
+    payRel = relationship('Pay', backref='pay',passive_deletes=True)
 
 
 class Pay(baseClass):
     __tablename__ = 'pay'
-    id = sql.Column(sql.String(50), primary_key=True)
+    pid = sql.Column(sql.Integer, primary_key=True, autoincrement=True)
     date = sql.Column(sql.Date)
     money = sql.Column(sql.Float)
 
-    loan_id = sql.Column(sql.String(25), sql.ForeignKey('loan.id'))
+    cus_id = sql.Column(sql.String(50), sql.ForeignKey('customer.id'))
+    loan_id = sql.Column(sql.String(25), sql.ForeignKey('loan.id', ondelete="CASCADE"))
 
 
-# baseClass.metadata.create_all()
+baseClass.metadata.create_all()
 
 if __name__ == '__main__':
     engine = login('root', 'zsy123', 'localhost', '3306', 'bank_system')

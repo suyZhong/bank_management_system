@@ -2,7 +2,7 @@ from UI.account import Ui_account
 import db
 from PyQt5.Qt import QStackedLayout
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
-from sqlalchemy.exc import IntegrityError, DataError
+from sqlalchemy.exc import IntegrityError, DataError, OperationalError
 from PyQt5.Qt import QMessageBox
 from sqlalchemy import or_
 import datetime
@@ -157,6 +157,10 @@ class AccountUI(QWidget, Ui_account):
             db.addCusAccount(session, self.savingState, aid, cus_id, bank_name)
             session.commit()
             session.close()
+        except OperationalError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'Check Primary key')
+            msgBox.exec_()
+            return
         except IntegrityError:
             msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong')
             msgBox.exec_()

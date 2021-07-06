@@ -39,6 +39,7 @@ class LoginDiag(QDialog):
         self.window.engine = engine
         self.window.customer.engine = engine
         self.window.accountant.engine = engine
+        self.window.loans.engine = engine
         self.window.show()
         self.close()
 
