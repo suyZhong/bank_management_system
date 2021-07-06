@@ -36,7 +36,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="add">
       <attribute name="title">
@@ -77,7 +77,15 @@
         </widget>
        </item>
        <item row="5" column="6">
-        <widget class="QDateEdit" name="dateEdit"/>
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="date">
+          <date>
+           <year>2020</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
        </item>
        <item row="9" column="2">
         <widget class="QLabel" name="label_9">
@@ -166,7 +174,7 @@
        <item row="8" column="3" colspan="2">
         <widget class="QLineEdit" name="AccRate">
          <property name="text">
-          <string>777</string>
+          <string/>
          </property>
          <property name="readOnly">
           <bool>false</bool>
@@ -279,7 +287,7 @@
        <item row="4" column="1">
         <widget class="QLineEdit" name="AccRate_2">
          <property name="text">
-          <string>777</string>
+          <string/>
          </property>
          <property name="readOnly">
           <bool>false</bool>
@@ -287,7 +295,15 @@
         </widget>
        </item>
        <item row="2" column="3">
-        <widget class="QDateEdit" name="dateEdit_2"/>
+        <widget class="QDateEdit" name="dateEdit_2">
+         <property name="date">
+          <date>
+           <year>2020</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="AccPoss_2"/>
@@ -541,7 +557,7 @@
          </item>
         </widget>
        </item>
-       <item row="7" column="0" colspan="4">
+       <item row="8" column="0" colspan="4">
         <widget class="QPushButton" name="Confirm_3">
          <property name="text">
           <string>Update</string>
@@ -621,7 +637,15 @@
         <widget class="QLineEdit" name="AccID_3"/>
        </item>
        <item row="2" column="3">
-        <widget class="QDateEdit" name="dateEdit_3"/>
+        <widget class="QDateEdit" name="dateEdit_3">
+         <property name="date">
+          <date>
+           <year>2020</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
        </item>
        <item row="2" column="2">
         <widget class="QLabel" name="label_26">
@@ -640,7 +664,7 @@
        <item row="4" column="1">
         <widget class="QLineEdit" name="AccRate_3">
          <property name="text">
-          <string>777</string>
+          <string/>
          </property>
          <property name="readOnly">
           <bool>false</bool>
@@ -668,6 +692,13 @@
         <widget class="QLabel" name="label_20">
          <property name="text">
           <string>币种</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="4">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Search</string>
          </property>
         </widget>
        </item>
@@ -742,7 +773,15 @@
         </widget>
        </item>
        <item row="2" column="3">
-        <widget class="QDateEdit" name="dateEdit_4"/>
+        <widget class="QDateEdit" name="dateEdit_4">
+         <property name="date">
+          <date>
+           <year>2020</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_30">
@@ -785,7 +824,7 @@
        <item row="4" column="1">
         <widget class="QLineEdit" name="AccRate_4">
          <property name="text">
-          <string>777</string>
+          <string/>
          </property>
          <property name="readOnly">
           <bool>false</bool>

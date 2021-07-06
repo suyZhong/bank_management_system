@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import relationship
 
+debug = 0
 
 def initInsertion(engine):
     session = sessionmaker(engine)()
@@ -119,9 +120,10 @@ def addAccount(session, accType, id, rest, date, bank_name, rate, money_type, ex
 
 engine = sql.create_engine(DB_URL)
 
-baseClass = declarative_base(engine)
-# baseClass = declarative_base()
-baseClass.metadata.clear()
+baseClass = declarative_base()
+if debug:
+    baseClass = declarative_base(engine)
+    baseClass.metadata.clear()
 
 
 class Bank(baseClass):
@@ -181,12 +183,13 @@ class SaveAccount(baseClass):
     rate = sql.Column(sql.String(10))
     money_type = sql.Column(sql.String(10))
     bank_name = sql.Column(sql.String(50), sql.ForeignKey("bank.name"), onupdate="CASCADE")
+    payRel = relationship('CustomerToSA', backref='SaveAccount', passive_deletes=True)
 
 
 class CustomerToCA(baseClass):
     __tablename__ = 'customer_to_ca'
     last_access_date = sql.Column(sql.Date)
-    ca_id = sql.Column(sql.String(25), sql.ForeignKey('check_account.id'), primary_key=True, onupdate="CASCADE")
+    ca_id = sql.Column(sql.String(25), sql.ForeignKey('check_account.id', ondelete="CASCADE", onupdate="CASCADE"), primary_key=True)
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
     __table_args__ = (UniqueConstraint('cus_id', 'bank_name', name='one_cus_to_ca'),)
@@ -195,7 +198,7 @@ class CustomerToCA(baseClass):
 class CustomerToSA(baseClass):
     __tablename__ = 'customer_to_sa'
     last_access_date = sql.Column(sql.Date)
-    sa_id = sql.Column(sql.String(25), sql.ForeignKey('save_account.id'), primary_key=True, onupdate="CASCADE")
+    sa_id = sql.Column(sql.String(25), sql.ForeignKey('save_account.id', ondelete="CASCADE",onupdate="CASCADE"), primary_key=True)
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
     __table_args__ = (UniqueConstraint('cus_id', 'bank_name', name='one_cus_to_sa'),)
@@ -207,12 +210,14 @@ class CheckAccount(baseClass):
     rest = sql.Column(sql.Float)
     date = sql.Column(sql.Date)
     extra = sql.Column(sql.Float)
-    bank_name = sql.Column(sql.String(50), sql.ForeignKey("bank.name"), onupdate="CASCADE")
+    bank_name = sql.Column(sql.String(50), sql.ForeignKey("bank.name"))
+
+    payRel = relationship('CustomerToCA', backref='CheckAccount', passive_deletes=True)
 
 
 class CustomerToLoan(baseClass):
     __tablename__ = 'customer_to_loan'
-    cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
+    cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True, onupdate="CASCADE")
     loan_id = sql.Column(sql.String(25), sql.ForeignKey('loan.id', ondelete="CASCADE"), primary_key=True)
 
 
@@ -237,7 +242,8 @@ class Pay(baseClass):
     loan_id = sql.Column(sql.String(25), sql.ForeignKey('loan.id', ondelete="CASCADE"))
 
 
-baseClass.metadata.create_all()
+if debug:
+    baseClass.metadata.create_all()
 
 if __name__ == '__main__':
     engine = login('root', 'zsy123', 'localhost', '3306', 'bank_system')

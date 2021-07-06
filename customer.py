@@ -2,9 +2,10 @@ from UI.customer import Ui_customer
 import db
 from PyQt5.Qt import QStackedLayout
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
-from sqlalchemy.exc import IntegrityError, DataError
+from sqlalchemy.exc import IntegrityError, DataError,OperationalError
 from PyQt5.Qt import QMessageBox
 from sqlalchemy import or_
+import traceback
 
 
 class CustomerUI(QWidget, Ui_customer):
@@ -21,6 +22,7 @@ class CustomerUI(QWidget, Ui_customer):
         self.CusID_4.textChanged.connect(self.queryCustomer)
         self.clearButton_2.clicked.connect(self.tableWidget.clearContents)
         self.tableWidget.clicked.connect(self.setTextFromTable)
+        self.toolButton.clicked.connect(self.showAllTable)
 
     def getTableText(self, row, col):
         try:
@@ -94,7 +96,14 @@ class CustomerUI(QWidget, Ui_customer):
                                                                'right format.')
             msgBox.exec_()
             return
+        except OperationalError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'Maybe try to set ID')
+            msgBox.exec_()
+            return
 
+        self.showAllTable()
+
+    def showAllTable(self):
         session = db.sessionmaker(self.engine)()
         data = session.query(db.Customer).all()
         self.showCustomer(data)
@@ -163,13 +172,14 @@ class CustomerUI(QWidget, Ui_customer):
 
     def delCustomer(self):
         id = self.CusID_3.text()
-        msgBox = QMessageBox(QMessageBox.Warning, 'Warning', 'Are you sure to delete? It is not invertible')
-        msgBox.exec_()
         session = db.sessionmaker(self.engine)()
         data = session.query(db.Customer).filter(db.Customer.id == id)
-        data.delete()
+        flag = data.delete()
         session.commit()
         session.close()
+        if not flag:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'No result found')
+            msgBox.exec_()
 
         session = db.sessionmaker(self.engine)()
         data = session.query(db.Customer).all()
@@ -189,10 +199,24 @@ class CustomerUI(QWidget, Ui_customer):
         args['contact_relation'] = self.CusRela_4.text()
         args['empl_id'] = self.CusEmployee2_3.text()
         args = db.argStr2None(args)
-        session = db.sessionmaker(self.engine)()
-        data = session.query(db.Customer).filter(db.Customer.id == id).update(args)
-        session.commit()
-        session.close()
+        try:
+            session = db.sessionmaker(self.engine)()
+            flag = session.query(db.Customer).filter(db.Customer.id == id).update(args)
+            if not flag:
+                msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'No result found')
+                msgBox.exec_()
+            session.commit()
+            session.close()
+        except IntegrityError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'SQL wrong, Maybe reference wrong')
+            msgBox.exec_()
+            return
+        except DataError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong, perhaps data too long or not fit '
+                                                               'right format.')
+            msgBox.exec_()
+            return
+
 
         session = db.sessionmaker(self.engine)()
         data = session.query(db.Customer).all()

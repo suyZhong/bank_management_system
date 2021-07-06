@@ -4,7 +4,7 @@ from PyQt5.Qt import QStackedLayout
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 from sqlalchemy.exc import IntegrityError, DataError, OperationalError
 from PyQt5.Qt import QMessageBox
-from sqlalchemy import or_
+from sqlalchemy import or_,update
 import datetime
 
 
@@ -35,6 +35,7 @@ class AccountUI(QWidget, Ui_account):
         self.pushButton.clicked.connect(self.queryAccount)
         self.tableWidget.clicked.connect(self.setTextFromTable)
         self.tabWidget.currentChanged.connect(self.setBoxReadOnly)
+        self.pushButton_2.clicked.connect(self.queryAccount)
 
     def setBoxReadOnly(self):
         # print(self.isSaving.checkState())
@@ -162,7 +163,7 @@ class AccountUI(QWidget, Ui_account):
             msgBox.exec_()
             return
         except IntegrityError:
-            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong')
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'Customer Error: Maybe Set more than 1 acc or customer not found')
             msgBox.exec_()
             return
         except DataError:
@@ -249,9 +250,13 @@ class AccountUI(QWidget, Ui_account):
             data = session.query(db.SaveAccount).filter(db.SaveAccount.id == id)
         else:
             data = session.query(db.CheckAccount).filter(db.CheckAccount.id == id)
-        data.delete()
+        flag = data.delete()
         session.commit()
         session.close()
+
+        if not flag:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'No result found')
+            msgBox.exec_()
 
         session = db.sessionmaker(self.engine)()
         data = session.query(db.Customer).all()
@@ -274,6 +279,10 @@ class AccountUI(QWidget, Ui_account):
         self.args['money_type'] = self.currencyType_3.currentText()
         self.args['extra'] = self.AccExtra_3.text()
         self.args = db.argStr2None(self.args)
+        try:
+            self.args.pop('id')
+        except KeyError:
+            pass
         session = db.sessionmaker(self.engine)()
 
         if self.savingState:
@@ -284,7 +293,27 @@ class AccountUI(QWidget, Ui_account):
         if self.savingState:
             data = session.query(db.SaveAccount).filter(db.SaveAccount.id == aid).update(self.args)
         else:
-            data = session.query(db.CheckAccount).filter(db.SaveAccount.id == aid).update(self.args)
+            data = session.query(db.CheckAccount).filter(db.CheckAccount.id == aid).update(self.args)
+        if not data:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'No result found')
+            msgBox.exec_()
+            session.close()
+            return
+        session.flush()
+        try:
+            if self.savingState:
+                print(self.args)
+                data = session.query(db.CustomerToSA).filter(db.CustomerToSA.sa_id == aid).update(
+                    {'sa_id':aid, 'bank_name': self.args['bank_name']})
+            else:
+                data = session.query(db.CustomerToCA).filter(db.CustomerToCA.ca_id == aid).update(
+                    {'sa_id':aid, 'bank_name': self.args['bank_name']})
+        except IntegrityError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'More than one account')
+            msgBox.exec_()
+            session.rollback()
+            session.close()
+            return
         session.commit()
         session.close()
 

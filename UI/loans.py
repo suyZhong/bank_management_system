@@ -106,6 +106,10 @@ class Ui_Loans(object):
         self.gridLayout.addWidget(self.tableWidget, 2, 1, 1, 2)
 
         self.retranslateUi(Loans)
+        self.pushButton_5.clicked.connect(self.lineEdit_4.clear)
+        self.pushButton_5.clicked.connect(self.lineEdit_3.clear)
+        self.pushButton_3.clicked.connect(self.lineEdit_2.clear)
+        self.pushButton_3.clicked.connect(self.lineEdit.clear)
         QtCore.QMetaObject.connectSlotsByName(Loans)
 
     def retranslateUi(self, Loans):
