@@ -88,7 +88,7 @@ class CustomerUI(QWidget, Ui_customer):
             session.close()
         except IntegrityError:
             print(IntegrityError)
-            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong')
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong. Duplicate detect')
             msgBox.exec_()
             return
         except DataError:
@@ -172,11 +172,16 @@ class CustomerUI(QWidget, Ui_customer):
 
     def delCustomer(self):
         id = self.CusID_3.text()
-        session = db.sessionmaker(self.engine)()
-        data = session.query(db.Customer).filter(db.Customer.id == id)
-        flag = data.delete()
-        session.commit()
-        session.close()
+        try:
+            session = db.sessionmaker(self.engine)()
+            data = session.query(db.Customer).filter(db.Customer.id == id)
+            flag = data.delete()
+            session.commit()
+            session.close()
+        except IntegrityError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'Cannot delete a customer with an Account or A loan')
+            msgBox.exec_()
+            return
         if not flag:
             msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'No result found')
             msgBox.exec_()

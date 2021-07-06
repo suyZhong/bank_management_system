@@ -21,6 +21,7 @@ class LoansUI(QWidget, Ui_Loans):
         self.pushButton.clicked.connect(self.delLoan)
         self.toolButton.clicked.connect(self.showAllTable)
         self.pushButton_6.clicked.connect(self.giveMoney)
+        self.lineEdit.textEdited.connect(self.queryLoan)
 
     def getTableText(self, row, col):
         try:
@@ -155,6 +156,16 @@ class LoansUI(QWidget, Ui_Loans):
         args = db.argStr2None(args)
         session = db.sessionmaker(self.engine)()
         session.add(db.Pay(date=args['date'], money=args['money'], loan_id=args['loan_id'], cus_id=args['cus_id']))
+        try:
+            tm = float(args['money'])
+        except ValueError:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'Must set money POSITIVE')
+            msgBox.exec_()
+            return
+        if tm <= 0:
+            msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'Must set money POSITIVE')
+            msgBox.exec_()
+            return
         try:
             session.flush()
         except IntegrityError:

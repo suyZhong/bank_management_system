@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         self.business = BusinessUI()
         self.ui.stackedWidget.addWidget(self.business)
         # for debug
-        self.ui.stackedWidget.setCurrentIndex(1)
+        # self.ui.stackedWidget.setCurrentIndex(1)
 
     def openCustomer(self):
         self.ui.stackedWidget.setCurrentIndex(0)
