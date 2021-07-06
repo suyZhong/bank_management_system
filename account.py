@@ -149,8 +149,14 @@ class AccountUI(QWidget, Ui_account):
         rate = self.AccRate.text()
         cType = self.currencyType.currentText()
         extra = self.AccExtra.text()
+        cus_id = self.AccCus.text()
         try:
-            db.addAccount(self.engine, self.savingState, aid, rest, date, bank_name, rate, cType, extra)
+            session = (db.sessionmaker(self.engine))()
+            db.addAccount(session, self.savingState, aid, rest, date, bank_name, rate, cType, extra)
+            session.flush()
+            db.addCusAccount(session, self.savingState, aid, cus_id, bank_name)
+            session.commit()
+            session.close()
         except IntegrityError:
             msgBox = QMessageBox(QMessageBox.Warning, 'Error', 'The SQL is wrong')
             msgBox.exec_()
@@ -215,8 +221,7 @@ class AccountUI(QWidget, Ui_account):
                         else or_(db.CheckAccount.id.like('%%'), db.CheckAccount.id.is_(None)))
             filt.append(db.CheckAccount.rest.like(self.args['rest']) if self.args['rest']
                         else or_(db.CheckAccount.rest.like('%%'), db.CheckAccount.rest.is_(None)))
-            filt.append(db.CheckAccount.date.like(self.args['date']) if self.args['date']
-                        else or_(db.CheckAccount.date.like('%%'), db.CheckAccount.date.is_(None)))
+            filt.append(db.CheckAccount.date == self.args['date'])
             filt.append(db.CheckAccount.bank_name.like(self.args['bank_name']) if self.args['bank_name']
                         else or_(db.CheckAccount.bank_name.like('%%'), db.CheckAccount.bank_name.is_(None)))
             filt.append(db.CheckAccount.extra.like(self.args['extra']) if self.args['extra']
@@ -231,7 +236,7 @@ class AccountUI(QWidget, Ui_account):
         session.close()
 
     def delAccount(self):
-        self.savingState = self.isSaving.checkState()
+        self.savingState = self.isSaving_2.checkState()
         id = self.AccID_2.text()
         msgBox = QMessageBox(QMessageBox.Warning, 'Warning', 'Are you sure to delete? It is not invertible')
         msgBox.exec_()
@@ -255,9 +260,9 @@ class AccountUI(QWidget, Ui_account):
         session.close()
 
     def updateAccount(self):
-        self.savingState = self.isSaving.checkState()
+        self.savingState = self.isSaving_3.checkState()
         aid = self.AccID_3.text()
-        self.args['id'] = self.AccID_3.text()
+        # self.args['id'] = self.AccID_3.text()
         self.args['rest'] = self.AccPoss_3.text()
         self.args['date'] = self.dateEdit_3.text()
         self.args['bank_name'] = self.AccBank_3.currentText()
@@ -293,6 +298,7 @@ class AccountUI(QWidget, Ui_account):
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(len(data))
         if self.savingState:
+            self.label_2.setText('储蓄账户')
             self.tableWidget.setHorizontalHeaderItem(4, QTableWidgetItem())
             self.tableWidget.setHorizontalHeaderItem(5, QTableWidgetItem())
             self.tableWidget.horizontalHeaderItem(4).setText('利率')
@@ -307,6 +313,7 @@ class AccountUI(QWidget, Ui_account):
                 self.tableWidget.setItem(i, 5, QTableWidgetItem(row.money_type))
                 # self.tableWidget.setItem(i, 6, QTableWidgetItem(row.id))
         else:
+            self.label_2.setText('支票账户')
             self.tableWidget.setHorizontalHeaderItem(4, QTableWidgetItem())
             self.tableWidget.setHorizontalHeaderItem(5, QTableWidgetItem())
             self.tableWidget.horizontalHeaderItem(4).setText('透支额')

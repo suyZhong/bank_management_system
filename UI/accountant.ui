@@ -36,7 +36,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="add">
       <attribute name="title">
@@ -63,6 +63,9 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="3" colspan="2">
+        <widget class="QLineEdit" name="AccPoss"/>
+       </item>
        <item row="9" column="3" colspan="4">
         <widget class="QLineEdit" name="AccExtra">
          <property name="readOnly">
@@ -72,6 +75,9 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item row="5" column="6">
+        <widget class="QDateEdit" name="dateEdit"/>
        </item>
        <item row="9" column="2">
         <widget class="QLabel" name="label_9">
@@ -181,6 +187,13 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="5">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>开户日期</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="2">
         <widget class="QLabel" name="label_7">
          <property name="text">
@@ -195,30 +208,10 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="2">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>开户支行</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="3" colspan="4">
         <widget class="QLineEdit" name="AccID"/>
        </item>
-       <item row="5" column="3" colspan="2">
-        <widget class="QLineEdit" name="AccPoss"/>
-       </item>
-       <item row="5" column="5">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>开户日期</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="6">
-        <widget class="QDateEdit" name="dateEdit"/>
-       </item>
-       <item row="7" column="3" colspan="4">
+       <item row="7" column="6">
         <widget class="QComboBox" name="AccBank">
          <item>
           <property name="text">
@@ -241,6 +234,23 @@
           </property>
          </item>
         </widget>
+       </item>
+       <item row="7" column="5">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>开户支行</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>客户ID</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3">
+        <widget class="QLineEdit" name="AccCus"/>
        </item>
       </layout>
      </widget>
@@ -326,7 +336,7 @@
        <item row="8" column="0" colspan="4">
         <widget class="QPushButton" name="Confirm_2">
          <property name="text">
-          <string>Confirm</string>
+          <string>Delete</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -534,7 +544,7 @@
        <item row="7" column="0" colspan="4">
         <widget class="QPushButton" name="Confirm_3">
          <property name="text">
-          <string>Confirm</string>
+          <string>Update</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -857,7 +867,7 @@
        <item row="7" column="0" colspan="4">
         <widget class="QPushButton" name="Confirm_4">
          <property name="text">
-          <string>Confirm</string>
+          <string>Search</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -959,7 +969,264 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>AccClear</sender>
+   <signal>clicked()</signal>
+   <receiver>AccExtra</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear</sender>
+   <signal>clicked()</signal>
+   <receiver>AccCus</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>284</x>
+     <y>419</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear</sender>
+   <signal>clicked()</signal>
+   <receiver>AccID</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>172</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear</sender>
+   <signal>clicked()</signal>
+   <receiver>AccPoss</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>433</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>214</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_2</sender>
+   <signal>clicked()</signal>
+   <receiver>AccExtra_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>389</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>336</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_2</sender>
+   <signal>clicked()</signal>
+   <receiver>AccRate_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_2</sender>
+   <signal>clicked()</signal>
+   <receiver>AccPoss_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>393</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>162</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_2</sender>
+   <signal>clicked()</signal>
+   <receiver>AccID_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>269</x>
+     <y>392</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_3</sender>
+   <signal>clicked()</signal>
+   <receiver>AccExtra_3</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>432</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>115</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_3</sender>
+   <signal>clicked()</signal>
+   <receiver>AccRate_3</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>264</x>
+     <y>429</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>162</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_3</sender>
+   <signal>clicked()</signal>
+   <receiver>AccPoss_3</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>165</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_3</sender>
+   <signal>clicked()</signal>
+   <receiver>AccID_3</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>424</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_4</sender>
+   <signal>clicked()</signal>
+   <receiver>AccExtra_4</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>183</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>367</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_4</sender>
+   <signal>clicked()</signal>
+   <receiver>AccRate_4</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>425</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>155</x>
+     <y>321</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_4</sender>
+   <signal>clicked()</signal>
+   <receiver>AccPoss_4</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AccClear_4</sender>
+   <signal>clicked()</signal>
+   <receiver>AccID_4</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>238</x>
+     <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>

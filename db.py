@@ -80,34 +80,37 @@ def argStr2None(args: dict):
     return args
 
 
-def addCustomer(engine, id, name, phone, address, cname, cphone, cmail, crelation, empl_id):
+def addCusAccount(session, accType, sa_id, cus_id, bank_name):
     args = locals()
     args = argStr2None(args)
-    session = sessionmaker(engine)()
+    if accType:
+        session.add(CustomerToSA(sa_id=args['sa_id'], cus_id=args['cus_id'], bank_name=args['bank_name']))
+    else:
+        session.add(CustomerToCA(ca_id=args['sa_id'], cus_id=args['cus_id'], bank_name=args['bank_name']))
+
+
+def addCustomer(session, id, name, phone, address, cname, cphone, cmail, crelation, empl_id):
+    args = locals()
+    args = argStr2None(args)
     session.add(Customer(id=args['id'], name=args['name'], phone=args['phone'], address=args['address'], contact_name=args['cname'], contact_phone=cphone,
                          contact_email=args['cmail'], contact_relation=args['crelation'], empl_id=args['empl_id']))
-    session.commit()
-    session.close()
 
 
-def addAccount(engine, accType, id, rest, date, bank_name, rate, money_type, extra):
+def addAccount(session, accType, id, rest, date, bank_name, rate, money_type, extra):
     args = locals()
     args = argStr2None(args)
-    session = sessionmaker(engine)()
     if accType:
         #  is saving
         session.add(SaveAccount(id=args['id'], rest=args['rest'], date=args['date'], bank_name=args['bank_name'], rate=args['rate'], money_type=args['money_type']))
     else:
         session.add(CheckAccount(id=args['id'], rest=args['rest'], date=args['date'], bank_name=args['bank_name'], extra=args['extra']))
-    session.commit()
-    session.close()
 
 
 engine = sql.create_engine(DB_URL)
 
 # baseClass = declarative_base(engine)
 baseClass = declarative_base()
-baseClass.metadata.clear()
+# baseClass.metadata.clear()
 
 
 class Bank(baseClass):
@@ -172,17 +175,20 @@ class SaveAccount(baseClass):
 class CustomerToCA(baseClass):
     __tablename__ = 'customer_to_ca'
     last_access_date = sql.Column(sql.Date)
-    ca_id = sql.Column(sql.String(25), sql.ForeignKey('check_account.id'), primary_key=True)
+    ca_id = sql.Column(sql.String(25), sql.ForeignKey('check_account.id'), primary_key=True, onupdate = "CASCADE")
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
-
+    __table_args__ = (UniqueConstraint('cus_id', 'bank_name', name='one_cus_to_ca'),)
 
 class CustomerToSA(baseClass):
     __tablename__ = 'customer_to_sa'
     last_access_date = sql.Column(sql.Date)
-    sa_id = sql.Column(sql.String(25), sql.ForeignKey('save_account.id'), primary_key=True)
+    sa_id = sql.Column(sql.String(25), sql.ForeignKey('save_account.id'), primary_key=True, onupdate="CASCADE")
     cus_id = sql.Column(sql.String(25), sql.ForeignKey("customer.id"), primary_key=True)
     bank_name = sql.Column(sql.String(50), sql.ForeignKey('bank.name'))
+    __table_args__ = (UniqueConstraint('cus_id', 'bank_name', name='one_cus_to_sa'),)
+
+
 
 
 class CheckAccount(baseClass):
