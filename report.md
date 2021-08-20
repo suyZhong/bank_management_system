@@ -1,6 +1,6 @@
 # 银行业务管理系统
 
-<div style="font-size:29px; text-align:center"><b>系统设计与实现报告</b></div>
+<div style="font-size:29px; text-align:center"><b>系统设计s与实现报告</b></div>
 
 姓名：钟溯飏；学号：PB18111764
 
